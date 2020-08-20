@@ -1,0 +1,89 @@
+<div class="m-1">
+    <h2 mat-dialog-title>Thông tin y tá</h2>
+    <mat-dialog-content [formGroup]="nurseForm">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput #input class="form-control" placeholder="Họ" formControlName="firstName" required>
+                        <div *ngIf="nurseForm.controls.firstName?.touched && nurseForm.controls.firstName?.errors && nurseForm.invalid">
+                            <mat-error *ngIf="nurseForm.controls.firstName?.errors.required"> Không được để trống trường này </mat-error>
+                        </div>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput #input class="form-control" placeholder="Tên" formControlName="lastName" required>
+                        <div *ngIf="nurseForm.controls.lastName?.touched &&nurseForm.controls.lastName?.errors && nurseForm.invalid">
+                            <mat-error *ngIf="nurseForm.controls.lastName?.errors.required"> Không được để trống trường này </mat-error>
+                        </div>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput #phoneInput class="form-control" placeholder="Số điện thoại" formControlName="phone" pattern="(3|7|8|9)+([0-9]{8})" required>
+                <span matPrefix>+84&nbsp;</span>
+                <mat-hint>Dùng số điện thoại để đăng nhập ( chỉ chấp nhận số trong KVVN )</mat-hint>
+                <mat-error *ngIf="phoneControl.hasError('required')"> Không được để trống trường này </mat-error>
+                <mat-error *ngIf="phoneControl.hasError('pattern')"> Số điện thoại không tồn tại, vui lòng nhập đúng số điện thoại của bạn ! </mat-error>
+                <mat-error *ngIf="phoneControl.hasError('existsPhone')"> Số điện thoại này đã tồn tại </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput #input class="form-control" placeholder="Địa chỉ" formControlName="address">
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput #emailInput class="form-control" placeholder="Địa chỉ e-mail" formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" required>
+                <mat-error *ngIf="emailControl.hasError('required')"> Không được để trống trường này </mat-error>
+                <mat-error *ngIf="emailControl.hasError('pattern')"> Vui lòng nhập đúng địa chỉ email của bạn ! </mat-error>
+                <mat-error *ngIf="emailControl.hasError('existsEmail')"> Địa chỉ email này đã tồn tại </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <mat-select formControlName="gender" placeholder="Giới tính">
+                    <mat-option [disabled]="g.id == 0" *ngFor="let g of genders" [value]="g.id">
+                        {{g.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <mat-select formControlName="departmentId" placeholder="Khoa điều trị">
+                    <mat-option *ngFor="let department of departments" [value]="department.id">
+                        {{department.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput #input class="form-control" placeholder="Chức vụ" formControlName="function" required>
+                <div *ngIf="nurseForm.controls.function?.touched && nurseForm.controls.function?.errors && nurseForm.invalid">
+                    <mat-error *ngIf="nurseForm.controls.function?.errors.required"> Không được để trống trường này </mat-error>
+                </div>
+            </mat-form-field>
+        </div>
+
+        <input type="hidden" formControlName="id" />
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button class="mat-stroked-button" mat-button (click)="close()">Đóng</button>
+        <button class="mat-stroked-button ml-2" *ngIf="id" mat-button (click)="openDeleteDialog(id)">Xóa</button>
+        <button class="mat-stroked-button ml-2 mat-primary" mat-button [disabled]="nurseForm.invalid" (click)="save()">{{ id ? 'Cập nhật' : 'Thêm mới' }}</button>
+    </mat-dialog-actions>
+</div>

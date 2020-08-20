@@ -1,0 +1,196 @@
+<div class="card mx-auto" style="width: 70%;">
+    <table class="table btn-table">
+        <tbody *ngIf="appointment && patient">
+            <tr>
+                <td>
+                    <span class="ml-6"><b>Thông tin cuộc hẹn</b></span>
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Mã cuộc hẹn</span>
+                </td>
+                <td>{{ appointment.appointmentCode }}</td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Ngày khám</span>
+                </td>
+                <td>{{ millisToUTCDate(appointment.timeOfService) | date:'dd/M/yyyy' }}</td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Thời gian</span>
+                </td>
+                <td>
+                    <i>{{ filterShift(appointment.shift) }}</i>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Trạng thái cuộc hẹn</span>
+                </td>
+                <td>
+                    <i>Đã kết thúc</i>
+                </td>
+            </tr>
+
+            <tr *ngIf="appointment?.approver">
+                <td>
+                    <span class="ml-6">Người duyệt</span>
+                </td>
+                <td>
+                    <i>{{ appointment?.approver }}</i>
+                </td>
+            </tr>
+
+            <tr *ngIf="user">
+                <td>
+                    <span class="ml-6">Người tạo</span>
+                </td>
+                <td>
+                    <i>{{ user?.firstName + ' ' + user?.lastName }}</i>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Thời gian tạo</span>
+                </td>
+                <td>
+                    <i>{{ millisToUTCDate(appointment.timeRegistered) | date:'dd/M/yyyy' }}</i>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Lý do khám</span>
+                </td>
+                <td>
+                    {{ appointment?.reason }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Ghi chú</span>
+                </td>
+                <td>
+                    {{ appointment.note ? appointment.note : 'Không' }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6"><b>Thông tin bệnh nhân</b></span>
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Họ và tên</span>
+                </td>
+                <td>
+                    <a [routerLink]="['/management/patients/profile/' + appointment.patientId]"><i>{{ patient.firstName + ' ' + patient.lastName }}</i></a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Giới tính</span>
+                </td>
+                <td>
+                    {{ patient.gender == 1 ? 'Nam' : (patient.gender == 2 ? 'Nữ' : 'Khác') }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Điện thoại</span>
+                </td>
+                <td>
+                    {{ patient?.phone }}
+                </td>
+            </tr>
+
+            <tr *ngIf="patient.cardId">
+                <td>
+                    <span class="ml-6">CMND/CCCD</span>
+                </td>
+                <td>
+                    {{ patient?.cardId }}
+                </td>
+            </tr>
+
+            <tr *ngIf="patient.insuranceCardNumber">
+                <td>
+                    <span class="ml-6">Số thẻ bảo hiểm</span>
+                </td>
+                <td>
+                    {{ patient?.insuranceCardNumber }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="ml-6">Khoa điều trị</span>
+                </td>
+                <td>
+                    {{ appointment.departmentName }}
+                </td>
+            </tr>
+
+            <!-- thong tin doctor -->
+            <ng-container *ngIf="appointment.doctorId && isDisplay !== 2">
+                <tr>
+                    <td>
+                        <span class="ml-6"><b>Thông tin bác sĩ</b></span>
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span class="ml-6">Họ và tên</span>
+                    </td>
+                    <td>
+                        <a [routerLink]="['/management/doctors/profile/' + appointment.doctorId]"><i>{{ doctor?.firstName + ' ' + doctor?.lastName }}</i></a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span class="ml-6">Trình độ</span>
+                    </td>
+                    <td>
+                        {{ doctor?.function }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span class="ml-6">Điện thoại</span>
+                    </td>
+                    <td>
+                        {{ doctor?.phone }}
+                    </td>
+                </tr>
+            </ng-container>
+
+            <tr>
+                <td>
+                    <button type="button" class="mat-stroked-button mt-2" mat-button (click)="goBack()">Trở lại</button>
+                    <button type="button" class="mat-stroked-button mt-2 ml-2" *ngIf="isDisplay !== 4" mat-button (click)="goToUpdate(appointment.id)">Cập nhật thông tin khám bệnh</button>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

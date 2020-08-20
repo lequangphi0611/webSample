@@ -1,0 +1,196 @@
+<div class="m-1">
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+            <div class="card-content p-5">
+              <h2 mat-dialog-title>Thông tin cuộc hẹn</h2>
+              <mat-dialog-content [formGroup]="form">
+                <div class="form-group" [hidden]="isDisplay === 4">
+                  <mat-form-field class="example-full-width">
+                    <input (keyup)="changePatient($event)" type="text" placeholder="Bệnh nhân" aria-label="Number" matInput [formControl]="form.get('patientName')" [matAutocomplete]="patient">
+                    <mat-autocomplete autoActiveFirstOption #patient="matAutocomplete" (optionSelected)='seletedPatient($event.option.value)'>
+                      <mat-option *ngFor="let option of filteredPatients | async" [value]="option">
+                        {{option.firstName + ' ' + option.lastName}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+  
+                  <div *ngIf="form.controls.patientName?.touched && form.controls.patientName?.errors && form.invalid">
+                    <mat-error *ngIf="form.controls.patientName?.errors.required"> Không được để trống trường này </mat-error>  
+                  </div>
+                </div>
+  
+                <div [hidden]="form.controls.patientName == '' || isDisplay === 4" *ngIf="patientSelected && patient"
+                  class="container">
+                  <mat-hint>Thông tin của bệnh nhân</mat-hint>
+                  <div class="row mt-3">
+                    <div class="col-6">
+                      <div class="form-group">
+                          <mat-form-field>
+                            <input matInput #input class="form-control" placeholder="Số điện thoại" disabled formControlName="phonePatient">
+                          </mat-form-field>
+                        </div>
+        
+                        <div class="form-group">
+                          <mat-form-field>
+                            <input matInput #input class="form-control" placeholder="CMND/CCCD" disabled formControlName="cardId">
+                          </mat-form-field>
+                        </div>
+                      </div>
+  
+                      <div class="col-6">
+                        <div class="form-group">
+                          <mat-form-field>
+                            <input matInput #input class="form-control" placeholder="Số thẻ bảo hiểm" disabled formControlName="insuranceCardNumber">
+                          </mat-form-field>
+                        </div>
+        
+                        <div class="form-group">
+                          <mat-form-field>
+                            <input matInput #input class="form-control" placeholder="Địa chỉ" disabled formControlName="addressPatient">
+                          </mat-form-field>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select formControlName="departmentId" (selectionChange)="onChangeDepartment($event)" placeholder="Khoa điều trị">
+                      <mat-option *ngFor="let department of departments" [value]="department.id">
+                        {{department.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <div *ngIf="form.controls.departmentId?.touched && form.controls.departmentId?.errors && form.invalid">
+                    <mat-error *ngIf="form.controls.departmentId?.errors.required"> Không được để trống trường này </mat-error>  
+                  </div>
+                </div>
+  
+                <div class="container" *ngIf="form.controls.departmentId.value != 0">
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group form-pick-date">
+                        <!-- <input matInput #input class="form-control" (dateTimeChange)="onChangeTime(form.controls.timeOfService.value)" formControlName="timeOfService" [min]="minDate" [matDatepicker]="picker" placeholder="Ngày khám">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker> -->
+                        
+                        <mat-form-field>
+                          <input matInput #input (dateTimeChange)="onChangeTime(form.controls.timeOfService.value)" class="form-control" formControlName="timeOfService" [owlDateTimeTrigger]="dt3" [owlDateTime]="dt3"
+                            [min]="minDate"
+                            placeholder="Ngày khám">
+                          <owl-date-time [pickerType]="'calendar'" #dt3
+                          ></owl-date-time>
+                        </mat-form-field>
+                      </div>
+                    </div>
+  
+                    <div class="col-4">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input (keyup)="changeDoctor($event)" type="text" placeholder="Bác sĩ" aria-label="Number" matInput [formControl]="form.get('doctorName')" [matAutocomplete]="doctor">
+                          <mat-autocomplete autoActiveFirstOption #doctor="matAutocomplete" (optionSelected)='seletedDoctor($event.option.value)'>
+                            <mat-option *ngFor="let option of filteredDoctors | async" [value]="option">
+                              {{option.firstName + ' ' + option.lastName}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                        
+                        <div *ngIf="form.controls.doctorName?.touched && form.controls.doctorName?.errors && form.invalid">
+                          <mat-error *ngIf="form.controls.doctorName?.errors.required"> Không được để trống trường này </mat-error>  
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-4">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <mat-select formControlName="shift" placeholder="Thời gian cuộc hẹn">
+                            <mat-option *ngFor="let shift of shiftss" [value]="shift.id">
+                              {{shift.detail}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <mat-hint [hidden]="form.controls.doctorName == ''" *ngIf="doctorSelected && doctor">Ca khám thực tế của Bác sĩ</mat-hint>
+                      </div>
+                    </div>
+<!-- 
+                    <div class="col-4">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput #input class="form-control" formControlName="startMinus" 
+                            (dateTimeChange)="onChangeMinus(form.controls.startMinus.value)" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4"
+                          placeholder="Thời gian bắt đầu">
+                          <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                        </mat-form-field>
+                      </div>
+                    </div>
+  
+                    <div class="col-4">
+                        <div class="form-group">
+                          <mat-form-field>
+                            <input matInput #input class="form-control" formControlName="finishTime" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5"
+                            placeholder="Thời gian kết thúc dự kiến">
+                            <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+                          </mat-form-field>
+                        </div>
+                      </div> -->
+                  </div>
+
+                  <div [hidden]="form.controls.doctorName == ''" *ngIf="doctorSelected && doctor">
+                    <mat-hint>Thông tin của bác sĩ</mat-hint>
+                    <div class="row mt-3">
+                      <div class="col-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                              <input matInput #input class="form-control" placeholder="Số điện thoại" disabled formControlName="phoneDoctor">
+                            </mat-form-field>
+                          </div>
+          
+                          <div class="form-group">
+                            <mat-form-field>
+                              <input matInput #input class="form-control" placeholder="e-mail" disabled formControlName="emailDoctor">
+                            </mat-form-field>
+                          </div>
+                      </div>
+                      <div class="col-6">
+                          <div class="form-group">
+                            <mat-form-field>
+                              <input matInput #input class="form-control" placeholder="Kinh nghiệm" disabled>
+                            </mat-form-field>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <mat-form-field>
+                    <textarea matInput #input class="form-control" rows="5" placeholder="Lý do khám (Biểu hiện bệnh)" formControlName="reason">
+                    </textarea>
+                  </mat-form-field>
+                </div>
+  
+                <div class="form-group">
+                  <mat-form-field>
+                    <textarea matInput #input class="form-control" rows="5" placeholder="Ghi chú" formControlName="note">
+                    </textarea>
+                  </mat-form-field>
+                </div>
+
+                <input type="hidden" formControlName="id"/>
+              </mat-dialog-content>
+  
+              <mat-dialog-actions>
+                <button type="button" class="mat-stroked-button" mat-button *ngIf="isDisableButton" (click)="goBack()">Trở lại</button>
+                <button type="reset" class="mat-stroked-button ml-2" mat-button *ngIf="isDisableButton" (click)="onReset()">Làm mới</button>
+                <button type="submit" class="mat-stroked-button ml-2 mat-primary" mat-button [disabled]="form.invalid" *ngIf="isDisableButton" (click)="onSubmit()">{{ id ? 'Cập nhật' : 'Thêm mới' }}</button>
+              </mat-dialog-actions>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,125 @@
+<div class="m-1">
+    <h2 mat-dialog-title>Thông tin bác sĩ</h2>
+    <mat-dialog-content [formGroup]="doctorForm">
+        <div class="row">
+            <!-- <div class="col-4"> -->
+            <!-- <div class="form-group"> -->
+            <!-- <form class="card-img" [formGroup]="formAvatar" enctype="multipart/form-data" method="POST">
+            <img class="card-img-top img-fluid" 
+                src="{{ urlImages ? urlImages : 'assets/img/photos/14.jpg' }}"
+                alt="{{ urlImages ? urlImages : 'assets/img/photos/14.jpg' }}" 
+                onerror="this.onerror=null; this.src='assets/img/photos/14.jpg'"
+            />
+            <button class="btn btn-floating halfway-fab bg-warning ml-1" type="button" style="
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            bottom: 0;">
+                <input class="custom-file-input" type="button" name="avatar" (change)="onFileChange($event)" type="file" style="
+                position: relative;
+                width: 40px;
+                height: 40px;
+                margin-left: -12px;
+                margin-top: -3px;">
+                <i class="fas fa-camera-retro" style="
+                  height: 100%;
+                  width: 100%;
+                  position: absolute;
+                  left: 0px;
+                  bottom: -25px;
+                  padding-top: 12px;
+                  cursor: pointer;
+                  transform: translateY(-25px);"
+                ></i>
+            </button>
+          </form> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput #input class="form-control" placeholder="Họ" formControlName="firstName" required>
+                        <div *ngIf="doctorForm.controls.firstName?.touched && doctorForm.controls.firstName?.errors && doctorForm.invalid">
+                            <mat-error *ngIf="doctorForm.controls.firstName?.errors.required"> Không được để trống trường này </mat-error>
+                        </div>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput #input class="form-control" placeholder="Tên" formControlName="lastName" required>
+                        <div *ngIf="doctorForm.controls.lastName?.touched &&doctorForm.controls.lastName?.errors && doctorForm.invalid">
+                            <mat-error *ngIf="doctorForm.controls.lastName?.errors.required"> Không được để trống trường này </mat-error>
+                        </div>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput #phoneInput class="form-control" placeholder="Số điện thoại" formControlName="phone" pattern="(3|7|8|9)+([0-9]{8})" required>
+                <span matPrefix>+84&nbsp;</span>
+                <mat-hint>Dùng số điện thoại để đăng nhập ( chỉ chấp nhận số trong KVVN )</mat-hint>
+                <mat-error *ngIf="phoneControl?.hasError('required')"> Không được để trống trường này </mat-error>
+                <mat-error *ngIf="phoneControl?.hasError('pattern')"> Số điện thoại không tồn tại, vui lòng nhập đúng số điện thoại của bạn ! </mat-error>
+                <mat-error *ngIf="phoneControl?.hasError('existsPhone')"> Số điện thoại này đã tồn tại </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput #input class="form-control" placeholder="Địa chỉ" formControlName="address">
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput #emailInput class="form-control" placeholder="Địa chỉ e-mail" formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" required>
+                <mat-error *ngIf="emailControl.hasError('required')"> Không được để trống trường này </mat-error>
+                <mat-error *ngIf="emailControl.hasError('pattern')"> Vui lòng nhập đúng địa chỉ email của bạn ! </mat-error>
+                <mat-error *ngIf="emailControl.hasError('existsEmail')"> Địa chỉ email này đã tồn tại </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <mat-select formControlName="gender" placeholder="Giới tính">
+                    <mat-option [disabled]="g.id == 0" *ngFor="let g of genders" [value]="g.id">
+                        {{g.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <mat-select formControlName="departmentId" placeholder="Khoa điều trị" required>
+                    <mat-option *ngFor="let department of departments" [value]="department.id">
+                        {{department.name}}
+                    </mat-option>
+                </mat-select>
+
+                <div *ngIf="doctorForm.controls.departmentId?.touched && doctorForm.controls.departmentId?.errors && doctorForm.invalid">
+                    <mat-error *ngIf="doctorForm.controls.departmentId?.errors.required"> Không được để trống trường này </mat-error>
+                </div>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput #input class="form-control" placeholder="Chức vụ" formControlName="function" required>
+                <div *ngIf="doctorForm.controls.function?.touched && doctorForm.controls.function?.errors && doctorForm.invalid">
+                    <mat-error *ngIf="doctorForm.controls.function?.errors.required"> Không được để trống trường này </mat-error>
+                </div>
+            </mat-form-field>
+        </div>
+        <input type="hidden" formControlName="id" />
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button class="mat-stroked-button" mat-button (click)="close()">Đóng</button>
+        <button class="mat-stroked-button ml-2" mat-button *ngIf="id" (click)="openDeleteDialog(id)">Xóa</button>
+        <button class="mat-stroked-button ml-2 mat-primary" mat-button [disabled]="doctorForm.invalid" (click)="save()">{{ id ? 'Cập nhật' : 'Thêm mới' }}</button>
+    </mat-dialog-actions>
+</div>

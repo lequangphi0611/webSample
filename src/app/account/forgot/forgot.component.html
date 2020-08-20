@@ -1,0 +1,63 @@
+<body data-col="1-column" class=" 1-column  blank-page">
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+    <div class="wrapper">
+        <div class="main-panel">
+            <!-- BEGIN : Main Content-->
+            <div class="main-content">
+                <div class="content-wrapper">
+                    <!--Forgot Password Starts-->
+                    <section id="forgot-password">
+                        <div class="container-fluid forgot-password-bg">
+                            <div class="row full-height-vh m-0 d-flex align-items-center justify-content-center">
+                                <div class="col-md-7 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="card-body fg-image">
+                                                <div class="row m-0">
+                                                    <div class="col-lg-6 d-none d-lg-block text-center py-2">
+                                                        <img src="../../../assets/img/gallery/forgot.png" alt="" class="img-fluid" width="300" height="230">
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12 bg-white px-4 pt-3">
+                                                        <h4 class="mb-2 card-title">Khôi phục mật khẩu</h4>
+                                                        <p class="card-text mb-3">
+                                                            Vui lòng nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn mật khẩu thông qua địa chỉ Email của bạn.
+                                                        </p>
+                                                        <div *ngIf="emailControl.touched && emailControl.errors">
+                                                            <mat-error *ngIf="emailControl.hasError('emailNotfound')">
+                                                                {{errorMessage}}
+                                                            </mat-error>
+                                                            <mat-error *ngIf="emailControl.hasError('required')"> Không được để trống trường này </mat-error>
+                                                            <mat-error *ngIf="emailControl.hasError('pattern')"> Vui lòng nhập đúng địa chỉ email của bạn ! </mat-error>
+                                                        </div>
+                                                        <input [formControl]="emailControl" type="text" class="form-control mb-3" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" placeholder="Email" />
+                                                        <div class="fg-actions d-flex justify-content-between">
+                                                            <div class="login-btn">
+                                                                <button class="btn btn-outline-primary">
+                                                                    <a [routerLink]="['/auth/login']" class="text-decoration-none">Trở lại đăng nhập</a>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="recover-pass">
+                                                                <button (click)="onSubmit()" class="btn btn-primary">
+                                                                    <a class="text-decoration-none text-white">Khôi phục</a>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--Forgot Password Ends-->
+
+                </div>
+            </div>
+            <!-- END : End Main Content-->
+        </div>
+    </div>
+
+</body>

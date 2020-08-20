@@ -1,0 +1,27 @@
+table.mat-table {
+  width: 100%;
+}
+
+.name-header {
+  width: 18%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doctor-hover:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  cursor: pointer;
+}
+
+.tooltip {
+  visibility: hidden;
+  background-color: #bbb;
+  color: #fff;
+  border-radius: 3px;
+  padding: 2px 7px;
+}
+
+.animated-background {
+  margin-top: 25px;
+}

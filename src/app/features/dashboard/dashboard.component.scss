@@ -1,0 +1,59 @@
+.card-content-fixed {
+  height: 250px;
+}
+
+.fix-icon i {
+  font-size: 80px !important;
+}
+
+.title-fixed {
+}
+
+.number-fixed {
+}
+
+.body-fixed {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.media-fixed {
+  display: flex;
+  align-items: center;
+  transform: translate(-10%, 85%);
+}
+
+.animated-background {
+  margin-top: 25px;
+}
+
+table.mat-table {
+  width: 100%;
+}
+
+.name-header {
+  width: 18%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doctor-hover:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  cursor: pointer;
+}
+
+.tooltip {
+  visibility: hidden;
+  background-color: #bbb;
+  color: #fff;
+  border-radius: 3px;
+  padding: 2px 7px;
+}
+
+.animated-background {
+  margin-top: 25px;
+}

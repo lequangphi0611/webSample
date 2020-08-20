@@ -1,0 +1,34 @@
+<div class="m-1">
+    <h2 mat-dialog-title>Khoa khám</h2>
+
+    <mat-dialog-content [formGroup]="departmentForm">
+        <div class="form-group">
+            <mat-form-field>
+                <input matInput #input class="form-control" placeholder="Tên khoa" formControlName="name" required>
+                <div *ngIf="departmentForm.controls.name?.touched && departmentForm.controls.name?.errors && departmentForm.invalid">
+                    <mat-error *ngIf="departmentForm.controls.name?.errors.required"> Không được để trống trường này </mat-error>
+                </div>
+            </mat-form-field>
+        </div>
+        
+        <div class="form-group">
+            <mat-form-field>
+                <textarea matInput #input class="form-control" rows="5" placeholder="Giới thiệu" formControlName="introduction" required></textarea>
+                <div *ngIf="departmentForm.controls.introduction?.touched && departmentForm.controls.introduction?.errors && departmentForm.invalid">
+                    <mat-error *ngIf="departmentForm.controls.introduction?.errors.required"> Không được để trống trường này </mat-error>
+                </div>
+            </mat-form-field>
+        </div>
+        
+        <div class="form-group">
+            <mat-form-field>
+                <textarea matInput #input class="form-control" rows="5" placeholder="Ghi chú" formControlName="note"></textarea>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button class="mat-raised-button" (click)="close()">Close</button>
+        <button class="mat-raised-button ml-2 mat-primary" [disabled]="departmentForm.invalid" (click)="save()">Save</button>
+    </mat-dialog-actions>
+
+</div>

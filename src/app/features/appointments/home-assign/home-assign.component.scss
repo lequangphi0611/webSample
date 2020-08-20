@@ -1,0 +1,16 @@
+mat-form-field {
+    width: 100%;
+}
+
+.form-pick-date input.mat-input-element {
+    margin-top: -18px !important;
+    transform: translateY(10px) !important;
+}
+
+.animated-background {
+    margin-top: 25px;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #eceff100 !important;
+}

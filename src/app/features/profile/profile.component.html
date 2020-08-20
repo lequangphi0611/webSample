@@ -1,0 +1,211 @@
+<section id="user-profile">
+    <div class="row">
+        <div class="col-12">
+            <div class="card profile-with-cover">
+                <div class="card-img-top img-fluid bg-cover height-150" style="background: url('assets/img/photos/14.jpg') 50%;"></div>
+                <div class="media profil-cover-details row">
+                    <div class="col-5">
+                    </div>
+                    <div class="col-2">
+                        <div class="align-self-center halfway-fab text-center" style="transform: translateX(10px);">
+                            <a class="profile-image">
+                                <img src="assets/img/portrait/avatars/avatar-08.png" class="rounded-circle img-border gradient-summer width-100" alt="Card image">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 ">
+                        </div>
+                        <div class="col-lg-2 col-md-2 text-center">
+                            <span class="font-medium-2 text-uppercase">{{user?.lastName}} {{user?.firstName}}</span>
+                            <p class="grey line-height-0 d-block mb-2 mt-2 font-small-3">{{user?.function}}</p>
+                        </div>
+                        <div class="col-lg-5 col-md-5">
+                            <a href="management/profile/editProfile" class="ml-2"><i style="transform: translate(-73px, -38px); font-size: 20px; cursor: pointer;" class="fas fa-user-edit"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Basic User Details Ends-->
+
+<!--About section starts-->
+<section>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Thông tin cá nhân</h5>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="mb-3" *ngIf="user?.intro">
+                            <span class="text-bold-500 primary">Giới thiệu: </span><br>
+                            <span class="grey font-small-2">{{user?.intro}}
+                            </span>
+                        </div>
+                        <hr *ngIf="user?.intro">
+                        <div class="row">
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <ul class="no-list-style">
+                                    <li class="mb-2">
+                                        <span class="text-bold-500 primary"><a><i class="icon-present font-small-3"></i> Ngày sinh:</a></span>
+                                        <span class="d-block overflow-hidden">{{ millisToUTCDate(user?.birthday) | date:'dd/M/yyyy' }}</span>
+                                    </li>
+                                    <li class="mb-2">
+                                        <span class="text-bold-500 primary"><a><i class="ft-map-pin font-small-3"></i> Địa chỉ:</a></span>
+                                        <span class="d-block overflow-hidden">{{user?.address}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <ul class="no-list-style">
+                                    <li class="mb-2">
+                                        <span class="text-bold-500 primary"><a><i class="ft-user font-small-3"></i> Giới tính:</a></span>
+                                        <span class="d-block overflow-hidden" *ngIf="user?.gender === 1">Nam</span>
+                                        <span class="d-block overflow-hidden" *ngIf="user?.gender === 2">Nữ</span>
+                                        <span class="d-block overflow-hidden" *ngIf="user?.gender === 3">Khác</span>
+                                    </li>
+                                    <li class="mb-2">
+                                        <span class="text-bold-500 primary"><a><i class="ft-mail font-small-3"></i> Địa chỉ Email:</a></span>
+                                        <a class="d-block overflow-hidden">{{user?.email}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <ul class="no-list-style">
+                                    <li class="mb-2">
+                                        <span class="text-bold-500 primary"><a><i class="ft-smartphone font-small-3"></i> Điện thoại:</a></span>
+                                        <span class="d-block overflow-hidden">{{user?.phone}}</span>
+                                    </li>
+                                    <li class="mb-2">
+                                        <span class="text-bold-500 primary"><a><i class="fas fa-hourglass-start"></i> Ngày tham gia:</a></span>
+                                        <span class="d-block overflow-hidden">{{ millisToUTCDate(user?.createdDate) | date:'dd/M/yyyy' }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="isDisplay && isDisplay === 2 || isDisplay && isDisplay === 3">
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <ul class="no-list-style">
+                                    <li class="mb-2">
+                                        <span class="text-bold-500 primary"><a><i class="fas fa-building"></i> Khoa khám</a></span>
+                                        <span class="d-block overflow-hidden">{{ user?.departmentName }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12" *ngIf="isDisplay && isDisplay === 2 || isDisplay && isDisplay === 3">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Thông tin giáo dục</h5>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <ul class="no-list-style">
+                                    <li class="mb-2">
+                                        <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> Quá trình học tập</a></span>
+                                        <span class="line-height-2 d-block overflow-hidden">{{user?.studying ? user?.studying : 'Chưa cập nhật'}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <ul class="no-list-style">
+                                    <li class="mb-2">
+                                        <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> Kinh nghiệm làm việc </a></span>
+                                        <span class="line-height-2 d-block overflow-hidden">{{user?.experience ? user?.experience : 'Chưa cập nhật'}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section *ngIf="isDisplay && isDisplay === 2 || isDisplay && isDisplay === 4">
+    <div class="row" *ngIf="dataSource.data.length > 0">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Cuộc hẹn gần đây</h5>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <table mat-table [dataSource]="dataSource" matSort class="mx-auto">
+                            <ng-container matColumnDef="index">
+                                <th mat-header-cell *matHeaderCellDef> # </th>
+                                <td mat-cell *matCellDef="let element; let i = index;">{{i + 1}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="appointmentCode">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Mã cuộc hẹn</th>
+                                <td mat-cell *matCellDef="let element">{{ element.appointmentCode }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="timeOfService">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Ngày khám</th>
+                                <td mat-cell *matCellDef="let element">{{ millisToUTCDate(element.timeOfService) | date:'dd/M/yyyy' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="shift">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Thời gian khám</th>
+                                <td mat-cell *matCellDef="let element">{{ filterShift(element.shift) }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="patient" *ngIf="isDisplay === 2">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Bệnh nhân</th>
+                                <td mat-cell *matCellDef="let element">{{ element.patientDTO?.firstName + ' ' + element.patientDTO?.lastName }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="departmentName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Khoa khám</th>
+                                <td mat-cell *matCellDef="let element">{{ element.departmentName }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="doctor" *ngIf="isDisplay === 4">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Bác sĩ</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="doctor-hover">
+                                        <i *ngIf="!element.doctorDTO" class="fas fa-question-circle"></i>
+                                        <span *ngIf="!element.doctorDTO" class="tooltip">Chưa có bác sĩ nào được chọn</span>
+                                    </div>
+                                    <span *ngIf="element.doctorDTO">{{  element.doctorDTO ? (element.doctorDTO?.firstName + ' ' + element.doctorDTO?.lastName) : ' Chưa có bác sĩ nào được chọn ' }}</span></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Trạng thái</th>
+                                <td mat-cell *matCellDef="let element">{{ filterStatusAppointment(element.status) }}</td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

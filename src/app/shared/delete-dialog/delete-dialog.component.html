@@ -1,0 +1,12 @@
+<h2 mat-dialog-title> Xóa </h2>
+
+<mat-dialog-content class="height">
+  Bạn có chắc chắn muốn xóa {{ title }}?
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="ml-auto">
+    <button mat-button class="mat-stroked-button" (click)="close()">Hủy</button>
+    <button mat-button class="mat-raised-button ml-2" color="warn" (click)="save()">Xác nhận</button>
+  </div>  
+</mat-dialog-actions>

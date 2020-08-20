@@ -1,0 +1,169 @@
+<head>
+    <meta charset="utf-8">
+    <!-- ===== Bootstrap CSS ===== -->
+    <link href="../../../../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../../../assets/css/style.css" rel="stylesheet" />
+</head>
+<div class="row">
+    <div class="col-12">
+        <div class="card profile-with-cover">
+            <div class="card-img-top img-fluid bg-cover height-150" style="background: url('assets/img/photos/14.jpg') 50%;"></div>
+        </div>
+    </div>
+</div>
+<!-- .row -->
+<div class="row">
+    <div class="col-md-4 col-xs-12">
+        <div class="white-box">
+            <div class="user-bg"> <img width="100%" alt="user" src="../../../../assets/img/img1.jpg">
+            </div>
+            <div class="user-btm-box">
+                <!-- .row -->
+                <div class="row text-center m-t-10">
+                    <div class="col-md-6 b-r"><strong>Họ và tên</strong>
+                        <p>{{user?.lastName}} {{user?.firstName}}</p>
+                    </div>
+                    <div class="col-md-6"><strong>Giới tính</strong>
+                        <p *ngIf="user?.gender === 1">Nam</p>
+                        <p *ngIf="user?.gender === 2">Nữ</p>
+                        <p *ngIf="user?.gender === 3">Khác</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <hr>
+                <!-- .row -->
+                <div class="row text-center m-t-10">
+                    <div class="col-md-6 b-r"><strong>Email</strong>
+                        <p>{{user?.email}}</p>
+                    </div>
+                    <div class="col-md-6"><strong>Số điện thoại</strong>
+                        <p>{{user?.phone}}</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <hr>
+                <!-- .row -->
+                <div class="row text-center m-t-10">
+                    <div class="col-md-12"><strong>Địa chỉ</strong>
+                        <p>{{user?.address ? user?.address : 'Chưa cập nhật'}}
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-xs-12">
+        <div class="white-box">
+            <mat-tab-group>
+                <mat-tab label="Đổi mật khẩu">
+                    <div class="tab-content">
+                        <form class="form-horizontal form-material">
+                            <div class="form-group">
+                                <label class="col-md-12">Mật khẩu hiện tại <label
+                                                    class="text-danger">*</label></label>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control form-control-line"> </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12">Mật khẩu mới <label
+                                                    class="text-danger">*</label></label>
+                                <div class="col-md-12">
+                                    <input type="password" value="" class="form-control form-control-line">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12">Nhập lại mật khẩu mới <label
+                                                    class="text-danger">*</label></label>
+                                <div class="col-md-12">
+                                    <input type="password" value="" class="form-control form-control-line">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button class="btn btn-success"><label class="text-danger"><b>Xác nhận</b></label></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Thay đổi thông tin cá nhân">
+                    <div class="tab-content">
+                        <form class="form-horizontal form-material">
+                            <div class="row" [formGroup]="patientForm">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-12 text-blue">Họ và tên</label>
+                                        <div class="col-md-12">
+                                            <input matInput #input type="text" class="form-control form-control-line" formControlName="firstName"> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-email" class="col-md-12 text-blue">Email</label>
+                                        <div class="col-md-12">
+                                            <input type="email" class="form-control form-control-line" formControlName="email"> </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-12 text-blue">Số điện thoại</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" formControlName="phone"> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 text-blue">Địa chỉ</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" formControlName="address"> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <mat-form-field class="col-md-12 text-blue">
+                                            <mat-select formControlName="gender" placeholder="Giới tính">
+                                                <mat-option [disabled]="g.id == 0" *ngFor="let g of genders" [value]="g.id">
+                                                    {{g.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-date-input" class="col-md-12 text-blue">Ngày sinh</label>
+                                        <div class="col-md-12">
+                                            <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-12 text-blue">Quá trình học tập</label>
+                                        <div class="col-md-12">
+                                            <textarea rows="5" class="form-control form-control-line" formControlName="studying"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 text-blue">Kinh nghiệm làm việc</label>
+                                        <div class="col-md-12">
+                                            <textarea rows="5" class="form-control form-control-line" formControlName="experience"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 text-blue">Giới thiệu về bản thân</label>
+                                        <div class="col-md-12">
+                                            <textarea rows="5" class="form-control form-control-line" formControlName="intro"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 text-blue">Xác minh mật khẩu</label>
+                                        <div class="col-md-12">
+                                            <input type="password" class="form-control form-control-line"> </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-success"><label class="text-danger"><b>Cập nhật thông tin</b></label></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+            <!-- /.tabs -->
+        </div>
+    </div>
+</div>

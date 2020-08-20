@@ -1,0 +1,112 @@
+<div class="timeline-wrapper" [hidden]="isLoaded">
+  <div class="timeline-item">
+    <div class="animated-background">
+      <div class="background-masker header-top"></div>
+      <div class="background-masker header-left"></div>
+      <div class="background-masker header-right"></div>
+      <div class="background-masker header-bottom"></div>
+      <div class="background-masker subheader-left"></div>
+      <div class="background-masker subheader-right"></div>
+      <div class="background-masker subheader-bottom"></div>
+      <div class="background-masker content-top"></div>
+      <div class="background-masker content-first-end"></div>
+      <div class="background-masker content-second-line"></div>
+      <div class="background-masker content-second-end"></div>
+      <div class="background-masker content-third-line"></div>
+      <div class="background-masker content-third-end"></div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="nurses?.length != 0">
+  <div class="row clearfix" [hidden]="!isLoaded">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="body">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="row">
+                <p class="card-text" style="margin: auto 25px;">
+                  Tất cả y tá trong phòng khám
+                </p>
+
+                <div class="mr-3 mt-1 ml-auto">
+                  <button mat-raised-button color="primary" (click)="toForm(0)">
+                    Thêm mới
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="nurses?.length == 0">
+  <div class="row clearfix" [hidden]="!isLoaded">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="body">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="row">
+                <p class="card-text" style="margin: auto 25px;">
+                  Hiện chưa có y tá trong hệ thống
+                </p>
+
+                <div class="mr-3 mt-1 ml-auto">
+                  <button mat-raised-button color="primary" (click)="toForm(0)">
+                    Thêm mới
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div class="row clearfix" [hidden]="!isLoaded">
+  <ng-container *ngFor="let nurse of nurses">
+    <div
+      class="col-lg-2 card-item-pointer col-md-12 col-sm-12"
+      (click)="toForm(nurse.id)"
+    >
+      <div class="card">
+        <div class="card-content">
+          <div class="card-img">
+            <img
+              class="card-img-top img-fluid"
+              src="{{
+                !nurse.imageUrl
+                ? 'assets/img/person_7.jpg'
+                  : urlAvatar.urlImage + nurse.imageUrl
+              }}"
+              onerror="this.onerror=null; this.src='assets/img/photos/14.jpg'"
+              alt="Card image cap"
+            />
+            <h4 class="card-title">
+              <!-- <p>{{ nurse.firstName + " " + nurse.lastName }}</p> -->
+            </h4>
+          </div>
+          <div class="card-body" style="text-align: -webkit-center;">
+            <p class="overflow-hidden text-center" style="margin: 0 -10px;
+            margin: 0 -10px;
+            white-space: nowrap;
+            width: 125px;">{{ nurse.firstName + " " + nurse.lastName }}</p>
+            <p class="overflow-hidden text-center" style="margin: 0 -10px;
+            margin: 0 -10px;
+            white-space: nowrap;
+            width: 125px;">
+              {{ nurse.function }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,94 @@
+<div class="row clearfix" style="margin: 30px auto; width: 58%;">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+            <div class="body">
+                <div class="card-content mx-auto">
+                    <div class="card-body" *ngIf="appointment">
+                        <div class="m-1">
+                            <h5>Thông tin về bệnh nhân của cuộc hẹn {{ appointment.appointmentCode }} 
+                            <br> vào lúc {{ filterShift(appointment.shift) }} ngày {{ millisToUTCDate(appointment.timeOfService) | date:'dd/M/yyyy' }} </h5>
+
+                            <mat-dialog-content *ngIf="!id && id === 0" [formGroup]="medicalHistoryForm">
+                                <ng-container>
+                                    <h6><b>Thông tin về tình trạng sức khỏe</b></h6> 
+
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input (keyup)="onChangeBloodGroup($event)" type="text" placeholder="Nhóm máu" aria-label="Number" matInput [formControl]="medicalHistoryForm.get('bloodGroupD')" [matAutocomplete]="bloodGroupD" required>
+                                            <mat-autocomplete autoActiveFirstOption #bloodGroupD="matAutocomplete" (optionSelected)='seletedBloodGroup($event.option)'>
+                                                <mat-option *ngFor="let bloodGroup of filteredBloodGroups | async" [value]="bloodGroup.id">
+                                                    {{ bloodGroup.value }}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                            
+                                            <div *ngIf="medicalHistoryForm.controls.bloodGroupD?.touched && medicalHistoryForm.controls.bloodGroupD?.errors && medicalHistoryForm.invalid">
+                                                <mat-error *ngIf="medicalHistoryForm.controls.bloodGroupD?.errors.required"> Không được để trống trường này </mat-error>  
+                                            </div>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput #input class="form-control" placeholder="Huyết áp (mmHg)" formControlName="bloodPressure" required>
+                                            <div *ngIf="medicalHistoryForm.controls.bloodPressure?.touched && medicalHistoryForm.controls.bloodPressure?.errors && medicalHistoryForm.invalid">
+                                                <mat-error *ngIf="medicalHistoryForm.controls.bloodPressure?.errors.required"> Không được để trống trường này </mat-error>  
+                                            </div>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput #input class="form-control" type="number" placeholder="Nhiệt độ (*C)" formControlName="tempBody" required>
+                                            <div *ngIf="medicalHistoryForm.controls.tempBody?.touched && medicalHistoryForm.controls.tempBody?.errors && medicalHistoryForm.invalid">
+                                                <mat-error *ngIf="medicalHistoryForm.controls.tempBody?.errors.required"> Không được để trống trường này </mat-error>  
+                                            </div>
+                                        </mat-form-field>
+                                    </div>
+                                </ng-container>
+
+                                <h6><b>Thông tin về chuẩn đoán</b></h6> 
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <textarea matInput #input class="form-control" rows="5" placeholder="Dấu hiệu bệnh" formControlName="signsOfIllness"></textarea>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <textarea matInput #input class="form-control" rows="5" placeholder="Kết quả chuẩn đoán" formControlName="result"></textarea>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <textarea matInput #input class="form-control" rows="5" placeholder="Đơn thuốc" formControlName="remedial"></textarea>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <textarea matInput #input class="form-control" rows="5" placeholder="Lời khuyên của bác sĩ" formControlName="adviceFromDoctor"></textarea>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <textarea matInput #input class="form-control" rows="5" placeholder="Ghi chú" formControlName="note"></textarea>
+                                    </mat-form-field>
+                                </div>
+
+                                <input type="hidden" formControlName="id"/>
+                            </mat-dialog-content>
+
+                            <mat-dialog-actions>
+                                <button type="button" class="mat-raised-button" mat-button (click)="goBack()">Trở lại</button>
+                                <button type="button" class="mat-raised-button ml-2 mat-primary" mat-button [disabled]="medicalHistoryForm.invalid" (click)="save()">Cập nhật</button>
+                                <button type="re" class="mat-raised-button ml-2 mat-primary" mat-button (click)="toReset()">Làm mới</button>
+                            </mat-dialog-actions>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

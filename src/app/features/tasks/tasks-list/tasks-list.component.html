@@ -1,0 +1,125 @@
+<div class="row clearfix">
+    <div class="form-filter mx-auto" fxLayout fxLayoutAlign="center center" *ngIf="dataSource.data.length > 0">
+        <mat-form-field class="ml-3 mt-1 mr-auto" style="    
+            transform: translateX(200px);
+            flex: 1 1 100%;
+            box-sizing: border-box;
+            max-width: 30%;">
+            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Tìm kiếm">
+        </mat-form-field>
+        <mat-form-field style="
+            margin-bottom: -5px;
+            transform: translateX(-350px);">
+            <mat-label>Xem theo</mat-label>
+            <mat-select (selectionChange)="applyFilterDay()" [(value)]="selected" (focus)="suttupFilterDay()">
+                <mat-option value="">Tất cả</mat-option>
+                <mat-option [value]="today">Hôm nay</mat-option>
+                <mat-option [value]="nextday">Ngày mai</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="mt-3 timeline-wrapper" [hidden]="isLoaded">
+            <div class="timeline-item">
+                <div class="animated-background">
+                    <div class="background-masker header-top"></div>
+                    <div class="background-masker header-left"></div>
+                    <div class="background-masker header-right"></div>
+                    <div class="background-masker header-bottom"></div>
+                    <div class="background-masker subheader-left"></div>
+                    <div class="background-masker subheader-right"></div>
+                    <div class="background-masker subheader-bottom"></div>
+                    <div class="background-masker content-top"></div>
+                    <div class="background-masker content-first-end"></div>
+                    <div class="background-masker content-second-line"></div>
+                    <div class="background-masker content-second-end"></div>
+                    <div class="background-masker content-third-line"></div>
+                    <div class="background-masker content-third-end"></div>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="dataSource.data.length == 0">
+            <div class="row clearfix" [hidden]="!isLoaded">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                    <div class="card-content">
+                        <div class="card-body">
+                        <div class="row">
+                            <p class="card-text" style="margin: auto 25px;">
+                                Bạn chưa có cuộc hẹn sắp tới
+                            </p>
+            
+                            <div class="mr-3 mt-1 ml-auto">
+                                <button mat-raised-button color="primary" (click)="toForm()" *ngIf="isDisplay !== 2">
+                                    Tạo cuộc hẹn
+                                </button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="mt-3" [hidden]="!isLoaded" *ngIf="dataSource.data.length > 0">
+            <table mat-table [dataSource]="dataSource" matSort class="mx-auto mat-elevation-z8">
+                <ng-container matColumnDef="index">
+                    <th mat-header-cell *matHeaderCellDef> # </th>
+                    <td mat-cell *matCellDef="let element; let i = index;">{{i + 1 + (paginator.pageIndex * paginator.pageSize)}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="appointmentCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Mã cuộc hẹn</th>
+                    <td mat-cell *matCellDef="let element">{{ element.appointmentCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="timeOfService">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Ngày khám</th>
+                    <td mat-cell *matCellDef="let element">{{ millisToUTCDate(element.timeOfService) | date:'dd/M/yyyy' }}</td>
+                </ng-container>
+        
+                <ng-container matColumnDef="shift">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Thời gian khám</th>
+                    <td mat-cell *matCellDef="let element">{{ filterShift(element.shift) }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="patient">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bệnh nhân</th>
+                    <td mat-cell *matCellDef="let element">{{ element.patientDTO?.firstName + ' ' + element.patientDTO?.lastName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="doctor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bác sĩ</th>
+                    <td mat-cell *matCellDef="let element">{{ element.doctor }}</td>
+                </ng-container>
+                
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Trạng thái</th>
+                  <td mat-cell *matCellDef="let element">{{ filterStatusAppointment(element.status) }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef class="action-header"> Tùy chọn </th>
+                    <td mat-cell *matCellDef="let element"> 
+                      <button class="disable-border-button" mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon>
+                      </button>
+                        <mat-menu #menu="matMenu">
+                          <button class="disable-border-button" mat-menu-item (click)="toDetail(element.id)">Chi tiết</button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <mat-paginator class="mx-auto mat-elevation-z8 mat-table" #paginator [pageSize]="pageSize" [showFirstLastButtons]="true" [length]="totalSize" [pageIndex]="currentPage" [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="pageEvent = handlePage($event)">
+            </mat-paginator>
+        </div>
+    </div>
+</div>
